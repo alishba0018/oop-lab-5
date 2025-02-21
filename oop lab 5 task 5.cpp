@@ -6,8 +6,8 @@ class ValidateString{
 	private:
 		string word;
 	public:
-		ValidateString(string w){
-			word=w;
+		ValidateString(string word){
+			this->word=word;
 		}
 	bool check() const {
         for (char ch : word) {
@@ -17,11 +17,11 @@ class ValidateString{
         }
         return true;
     }
-    void show() const {
+    void display() const {
         if (check()) {
-            cout << "\"" << word << "\" is all good!\n";
+            cout << " " << word << " is all good!\n";
         } else {
-            cout << "\"" << word << "\" is not correct\n";
+            cout << " " << word <<" is not correct\n";
         }
     }
 
@@ -29,12 +29,12 @@ class ValidateString{
 
 
 int main() {
-    string userInput;
-    cout << "Enter a word to check: ";
-    cin >> userInput;
+    string inputWord;
+    cout << "Enter a string to check: ";
+    cin >> inputWord;
 
-    ValidateString a(userInput);
-    a.show();
+    ValidateString a(inputWord);
+    a.display();
 
     return 0;
 }
