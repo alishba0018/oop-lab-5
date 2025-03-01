@@ -1,0 +1,117 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class MenuItem {
+public:
+    string name;
+    double price;
+    MenuItem() {} 
+    MenuItem(string n, double p) : name(n), price(p) {} 
+};
+
+class Menu {
+private:
+    MenuItem items[10]; 
+    int itemCount;
+public:
+    Menu() : itemCount(0) {} 
+    void addItem(string name, double price) {
+        if (itemCount < 10) {
+            items[itemCount] = MenuItem(name, price);
+            itemCount++;
+            cout << name << " added to the menu!\n";
+        } else {
+            cout << "Menu is full! Cannot add more items.\n";
+        }
+    }
+    void removeItem(string name) {
+        for (int i = 0; i < itemCount; i++) {
+            if (items[i].name == name) {
+                for (int j = i; j < itemCount - 1; j++) {
+                    items[j] = items[j + 1];
+                }
+                itemCount--;
+                cout << name << " removed from the menu!\n";
+                return;
+            }
+        }
+        cout << "Item not found in the menu.\n";
+    }
+
+    void displayMenu() {
+        for (int i = 0; i < itemCount; i++) {
+            cout << i + 1 << ". " << items[i].name << " - $" << items[i].price << endl;
+        }
+    }
+    MenuItem getItem(int index) {
+        if (index >= 0 && index < itemCount) {
+            return items[index];
+        }
+        return MenuItem("", 0); 
+    }
+    int getItemCount() {
+        return itemCount;
+    }
+};
+
+class Payment {
+private:
+    double totalAmount;
+public:
+    Payment() : totalAmount(0) {}
+    void calculateTotal(MenuItem orderItems[], int orderCount) {
+        totalAmount = 0;
+        for (int i = 0; i < orderCount; i++) {
+            totalAmount += orderItems[i].price;
+        }
+    }
+    void displayBill() {
+        cout << "Total amount to be paid: $" << totalAmount << endl;
+    }
+};
+
+class Order {
+private:
+    MenuItem orderItems[5]; 
+    int orderCount; 
+    Payment payment; 
+public:
+    Order() : orderCount(0) {}
+    void addOrderItem(MenuItem item) {
+        if (orderCount < 5) {
+            orderItems[orderCount] = item;
+            orderCount++;
+            cout << item.name << " added to the order!\n";
+        } else {
+            cout << "Order limit reached! Cannot add more items.\n";
+        }
+    }
+    void finalizeOrder() {
+        payment.calculateTotal(orderItems, orderCount);
+        cout << "Order placed successfully!";
+        payment.displayBill();
+    }
+};
+
+int main() {
+    Menu menu;
+    menu.addItem("Burger", 5.99);
+    menu.addItem("Pizza", 8.99);
+    menu.addItem("Pasta", 7.49);
+    menu.displayMenu();
+    Order order;
+    int choice;
+    while (true) {
+        cout << "Enter the number of the item to add to your order (0 to finish): ";
+        cin >> choice;
+        if (choice == 0) break; 
+        if (choice > 0 && choice <= menu.getItemCount()) {
+            order.addOrderItem(menu.getItem(choice - 1));
+        } else {
+            cout << "Invalid choice, please try again.\n";
+        }
+    }
+    order.finalizeOrder(); 
+    return 0;
+}
