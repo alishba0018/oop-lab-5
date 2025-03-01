@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Airport {
+public:
+    string name;
+    string location;
+    Airport() {}
+    Airport(string n, string loc) : name(n), location(loc) {} 
+    void display() {
+        cout << "Airport: " << name << " (" << location << ")" << endl;
+    }
+};
+
+class Flight {
+private:
+    string flightNumber;
+    Airport departure;
+    Airport destination;
+    Airport stopovers[5];
+    int stopCount;
+public:
+    Flight(string fNum, Airport dep, Airport dest) 
+        : flightNumber(fNum), departure(dep), destination(dest), stopCount(0) {}
+    void addStopover(Airport stop) {
+        if (stopCount < 5) {
+            stopovers[stopCount] = stop;
+            stopCount++;
+            cout << "Added stopover: " << stop.name << " (" << stop.location << ")\n";
+        } else {
+            cout << "Maximum stopovers reached! Can't add more.\n";
+        }
+    }
+    void display(){
+        cout << "Flight " << flightNumber << " Journey:";
+        departure.display();
+        for (int i = 0; i < stopCount; i++) {
+            cout << "Stopover: ";
+            stopovers[i].display();
+        }
+        cout << "Final Destination: ";
+        destination.display();
+    }
+};
+
+int main() {
+    Airport karachi("Jinnah International Airport", "Karachi, Pakistan");
+    Airport islamabad("Islamabad International Airport", "Islamabad, Pakistan");
+    Airport england("Heathrow Airport", "London, England");
+    Flight pk303("PK-303", karachi, england);
+    pk303.addStopover(islamabad);
+    pk303.display();
+    return 0;
+}
