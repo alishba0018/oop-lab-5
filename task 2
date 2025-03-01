@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Battery {
+private:
+    int power;
+public:
+    Battery(int mAh) : power(mAh) {} 
+    int getPower(){ 
+        return power;
+    }
+};
+
+class Smartphone {
+private:
+    string name;
+    Battery battery; 
+public:
+    Smartphone(string model, int batteryCapacity) : name(model), battery(batteryCapacity) {}
+    void display(){
+        cout << "Smartphone Model: " << name << endl;
+        cout << "Battery Capacity: " << battery.getPower() << " mAh" << endl;
+    }
+};
+
+int main() {
+    string model;
+    int batteryCapacity;
+    cout << "Enter the name of the smartphone: ";
+    cin >> model;
+    cout << "Enter the battery power in mAh: ";
+    cin >> batteryCapacity;
+    Smartphone sp(model, batteryCapacity);
+    sp.display();
+    return 0;
+}
