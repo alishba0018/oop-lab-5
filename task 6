@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+class LoanHelper {
+private:
+    double loanAmount;
+    int months;
+    double interestRate;
+
+public:
+    LoanHelper(double loanAmount, int months, double interestRate) {
+        if (interestRate < 0.0 || interestRate > 0.005) {
+            cout << "Error: Interest rate must be between 0% and 0.5% (0 to 0.005 in decimal)." << endl;
+            return;
+        }
+        this->loanAmount = loanAmount;
+        this->months = months;
+        this->interestRate = interestRate;
+    }
+    double calculateMonthlyPayment() {
+        double basePayment = loanAmount / months;
+        double interest = basePayment * interestRate;
+        return basePayment + interest;
+    }
+    void displayPaymentInfo() {
+        double monthlyPayment = calculateMonthlyPayment();
+        cout << "You have to pay " << monthlyPayment << " every month for "
+             << months << " months to repay your loan." << endl;
+    }
+};
+
+int main() {
+    double loanAmount, interestRate;
+    int months;
+    cout << "Enter loan amount: ";
+    cin >> loanAmount;
+    cout << "Enter number of months to repay: ";
+    cin >> months;
+    cout << "Enter interest rate (as a decimal, e.g., 0.004 for 0.4%): ";
+    cin >> interestRate;
+    LoanHelper loan(loanAmount, months, interestRate);
+    loan.displayPaymentInfo();
+    return 0;
+}
